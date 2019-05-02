@@ -1,0 +1,69 @@
+{
+  "name": "debug_msrresnet"//"001_RRDB_PSNR_x4_DIV2K" //  please remove "debug_" during training or tensorboard wounld not work
+  , "use_tb_logger": true
+  , "model":"sr"
+  , "scale": 4
+  , "gpu_ids": [5]
+
+  , "datasets": {
+    "train": {
+      "name": "DIV2K800"
+      , "mode": "LRHR"
+      , "dataroot_HR": "/home/guanwp/BasicSR_datasets/DIV2K800_sub"
+      , "dataroot_LR": "/home/guanwp/BasicSR_datasets/DIV2K800_sub_bicLRx4"
+      , "subset_file": null
+      , "use_shuffle": true
+      , "n_workers": 8
+      , "batch_size": 16//how many samples in each iters
+      , "HR_size": 192 // 128 | 192
+      , "use_flip": true
+      , "use_rot": true
+    }
+    , "val": {
+      "name": "val_set5"
+      , "mode": "LRHR"
+      , "dataroot_HR": "/home/guanwp/BasicSR_datasets/val_set5/Set5"
+      , "dataroot_LR": "/home/guanwp/BasicSR_datasets/val_set5/Set5_sub_bicLRx4"
+    }
+  }
+
+  , "path": {
+    "root": "/home/guanwp/BasicSR-master",
+    "pretrain_model_G": null
+     ,"experiments_root": "/home/guanwp/BasicSR-master/experiments/",
+    "models": "/home/guanwp/BasicSR-master/experiments/msrresnet/models",
+    "log": "/home/guanwp/BasicSR-master/experiments/msrresnet",
+    "val_images": "/home/guanwp/BasicSR-master/experiments/msrresnet/val_images"
+  }
+
+  , "network_G": {
+    "which_model_G": "srresnet"//"espcn"//"srresnet"//"sr_resnet"//"fsrcnn"//"sr_resnet" // RRDB_net | sr_resnet
+    , "norm_type": null
+    , "mode": "CNA"
+    , "nf": 64//56//64
+    , "nb": 23
+    , "in_nc": 3
+    , "out_nc": 3
+    , "gc": 32
+    , "group": 1
+  }
+
+  , "train": {
+    "lr_G": 1e-3//1e-3//2e-4
+    , "lr_scheme": "MultiStepLR"
+    , "lr_steps": [200000,400000,600000,800000,1000000,1500000]
+    , "lr_gamma": 0.5
+
+    , "pixel_criterion": "l1"//"l1"//'l2'//huber//Cross
+    , "pixel_weight": 1.0
+    , "val_freq": 5e3
+
+    , "manual_seed": 0
+    , "niter": 2e6//2e6//1e6
+  }
+
+  , "logger": {
+    "print_freq": 200
+    , "save_checkpoint_freq": 5e3
+  }
+}

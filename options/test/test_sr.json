@@ -1,0 +1,41 @@
+{
+  "name": "testwulaoshi"
+  , "suffix": null
+  , "model": "sr"
+  , "scale": 4
+  , "gpu_ids": [4,5]
+
+  , "datasets": {
+    "test_1": { // the 1st test dataset
+      "name": "Set5"
+      , "mode": "LR"//"LRHR"
+      //, "dataroot_HR": "/home/guanwp/BasicSR_datasets/val_set5/Set5"
+      , "dataroot_LR": "/home/guanwp/BasicSR_datasets/val_set5/123/"
+    }
+    , "test_2": { // the 2nd test dataset
+      "name": "Set14"
+      , "mode": "LRHR"//"LR"//"LRHR"
+      , "dataroot_HR": "/home/guanwp/BasicSR_datasets/val_set5/Set5_sub_bicLRx4"
+      , "dataroot_LR": "/home/guanwp/BasicSR_datasets/val_set5/Set5_sub_bicLRx4_noiseALL"
+    }
+  }
+
+  , "path": {
+    "root": "/home/guanwp/BasicSR-master"
+    ,"results_root": "../results"
+      , "pretrain_model_G": "/home/guanwp/BasicSR-master/experiments2/sr_resnet_x4_baesline/models/latest_G.pth"
+  }
+
+  , "network_G": {
+    "which_model_G": "sr_resnet"//"RRDB_net" // RRDB_net | sr_resnet
+    , "norm_type": null
+    , "mode": "CNA"
+    , "nf": 64//56//64
+    , "nb": 23
+    , "in_nc": 3
+    , "out_nc": 3
+
+    , "gc": 32
+    , "group": 1
+  }
+}
